@@ -71,6 +71,31 @@ describe("TranscriptStore", () => {
     assert.throws(() => store.deleteStudent(secondID), /Student not found/);
   });
 
+  test("REF-201: addGrade and changeGrade share validation behavior", () => {
+    const studentID = store.addStudent("Ada");
+    store.addGrade(studentID, "CS360", 80);
+
+    for (const method of ["addGrade", "changeGrade"]) {
+      assert.throws(
+        () => store[method](studentID, "   ", 80),
+        /Course name is required/,
+      );
+      assert.throws(
+        () => store[method](studentID, "CS360", 101),
+        /Grade must be an integer from 0 to 100/,
+      );
+      assert.throws(
+        () => store[method](studentID, "CS360", "A+"),
+        /Grade must be an integer from 0 to 100/,
+      );
+      assert.deepEqual(store[method](studentID, " cs361 ", "88"), {
+        studentID,
+        course: "CS361",
+        grade: 88,
+      });
+    }
+  });
+
   test("BUG-103: name search trims whitespace and ignores case", () => {
     const studentID = store.addStudent("Grace Lee");
 
