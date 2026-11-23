@@ -34,6 +34,22 @@ describe("TranscriptStore", () => {
     });
   });
 
+  test("BUG-102: rejects a second grade for the same student and course", () => {
+    const studentID = store.addStudent("Lin");
+    store.addGrade(studentID, "CS360", 85);
+
+    assert.throws(
+      () => store.addGrade(studentID, "cs360", 90),
+      /Grade already exists for course CS360/,
+    );
+
+    assert.deepEqual(store.changeGrade(studentID, "CS360", 92), {
+      studentID,
+      course: "CS360",
+      grade: 92,
+    });
+  });
+
   test("rejects invalid student, course, and grade inputs", () => {
     const studentID = store.addStudent("Noah");
 
@@ -78,5 +94,24 @@ describe("TranscriptStore", () => {
         grade: 88,
       });
     }
+  });
+
+  test("BUG-103: name search trims whitespace and ignores case", () => {
+    const studentID = store.addStudent("Grace Lee");
+
+    assert.deepEqual(store.getStudentIDs("  gRaCe LeE  "), [studentID]);
+    assert.equal(
+      store.getTranscript(studentID).student.studentName,
+      "Grace Lee",
+    );
+  });
+
+  test("BUG-101: deleting a student removes their stored grades", () => {
+    const studentID = store.addStudent("Ada");
+    store.addGrade(studentID, "CS360", 85);
+
+    store.deleteStudent(studentID);
+
+    assert.equal(store.getGrade(studentID, "CS360"), undefined);
   });
 });
