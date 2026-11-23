@@ -28,7 +28,7 @@ with resolutions, and the merged `main` branch.
 | One branch per ticket | `docs/screenshots/06-branches.jpeg` |
 | Pull requests opened | `docs/screenshots/07-pull-requests.jpeg` |
 | Code review and diff inspection | `docs/screenshots/08-pr-REF-201-review.jpeg`, `09-pr-REF-201-diff.jpeg`, `10-pr-BUG-102-diff.jpeg` |
-| Merge conflicts before resolution | `docs/screenshots/11-conflict-BUG-103.jpeg`, `12-conflict-REF-201.jpeg` |
+| Merge conflicts before resolution | `docs/screenshots/11-conflict-BUG-103.jpeg`; REF-201 merge conflict in `docs/evidence/conflict-ref-201-merge.txt` |
 | Conflict resolution and re-test | `docs/screenshots/19-conflict-resolution.png`, `docs/evidence/conflict-ref-201-merge.txt` |
 | Merged pull requests | `docs/screenshots/13-merged-pull-requests.jpeg`, `16-pr-REF-201-merged.jpeg`, `17-pr-BUG-101-merged.jpeg` |
 | Closed issues | `docs/screenshots/14-issues-closed.jpeg` |
