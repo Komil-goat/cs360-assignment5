@@ -1,0 +1,58 @@
+
+> cs360-assignment5-starter@1.0.0 test
+> node --test
+
+✖ BUG-101: a deleted student's grade request returns 404 (34.382042ms)
+▶ TranscriptStore
+  ✔ adds students and returns their transcripts (1.225042ms)
+  ✔ adds and changes a course grade (1.191292ms)
+  ✔ rejects invalid student, course, and grade inputs (0.5235ms)
+  ✔ supports exact-name lookup and deletion (0.301125ms)
+  ✖ BUG-101: deleting a student removes their stored grades (0.881833ms)
+✖ TranscriptStore (4.908208ms)
+ℹ tests 6
+ℹ suites 1
+ℹ pass 4
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 171.572166
+
+✖ failing tests:
+
+test at test/server.test.js:20:1
+✖ BUG-101: a deleted student's grade request returns 404 (34.382042ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  200 !== 404
+  
+      at TestContext.<anonymous> (file:///Users/Komil/Code/fswe/cs360-assignment5-starter/test/server.test.js:47:10)
+      at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+      at async Test.run (node:internal/test_runner/test:1125:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:358:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 200,
+    expected: 404,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at test/transcriptStore.test.js:58:3
+✖ BUG-101: deleting a student removes their stored grades (0.881833ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  85 !== undefined
+  
+      at TestContext.<anonymous> (file:///Users/Komil/Code/fswe/cs360-assignment5-starter/test/transcriptStore.test.js:64:12)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 85,
+    expected: undefined,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

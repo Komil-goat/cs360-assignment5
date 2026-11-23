@@ -1,0 +1,43 @@
+
+> cs360-assignment5-starter@1.0.0 test
+> node --test
+
+▶ TranscriptStore
+  ✔ adds students and returns their transcripts (1.289208ms)
+  ✔ adds and changes a course grade (0.833916ms)
+  ✔ rejects invalid student, course, and grade inputs (0.419959ms)
+  ✔ supports exact-name lookup and deletion (0.237583ms)
+  ✖ BUG-103: name search trims whitespace and ignores case (1.45525ms)
+✖ TranscriptStore (5.178958ms)
+ℹ tests 5
+ℹ suites 1
+ℹ pass 4
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 89.95475
+
+✖ failing tests:
+
+test at test/transcriptStore.test.js:58:3
+✖ BUG-103: name search trims whitespace and ignores case (1.45525ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
+  + actual - expected
+  
+  + []
+  - [
+  -   1
+  - ]
+  
+      at TestContext.<anonymous> (file:///Users/Komil/Code/fswe/cs360-assignment5-starter/test/transcriptStore.test.js:61:12)
+      at Test.runInAsyncScope (node:async_hooks:228:14)
+      at Test.run (node:internal/test_runner/test:1118:25)
+      at async Suite.processPendingSubtests (node:internal/test_runner/test:787:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: [],
+    expected: [ 1 ],
+    operator: 'deepStrictEqual',
+    diff: 'simple'
+  }

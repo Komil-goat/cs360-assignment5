@@ -1,0 +1,34 @@
+== POST /transcripts (name with padding)
+{"studentID":1}
+status=201
+
+== POST /transcripts/1/CS360 grade 85
+{"studentID":1,"course":"CS360","grade":85}
+status=201
+
+== POST duplicate course cs360 grade 90
+{"error":"Grade already exists for course CS360"}
+status=409
+
+== PUT /transcripts/1/CS360 grade 92
+{"studentID":1,"course":"CS360","grade":92}
+status=200
+
+== GET /studentids?name=  ada lovelace  
+[1]
+status=200
+
+== GET /transcripts/1
+{"student":{"studentID":1,"studentName":"Ada Lovelace"},"grades":[{"studentID":1,"course":"CS360","grade":92}]}
+status=200
+
+== DELETE /transcripts/1
+status=204
+
+== GET /transcripts/1/CS360 after delete
+{"error":"Grade not found"}
+status=404
+
+== GET /transcripts/1 after delete
+{"error":"Student not found: 1"}
+status=404

@@ -1,0 +1,19 @@
+
+> cs360-assignment5-starter@1.0.0 test
+> node --test
+
+▶ TranscriptStore
+  ✔ adds students and returns their transcripts (1.28475ms)
+  ✔ adds and changes a course grade (0.961542ms)
+  ✔ rejects invalid student, course, and grade inputs (0.406834ms)
+  ✔ supports exact-name lookup and deletion (0.2355ms)
+  ✔ BUG-103: name search trims whitespace and ignores case (0.193083ms)
+✔ TranscriptStore (3.907834ms)
+ℹ tests 5
+ℹ suites 1
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 85.87225

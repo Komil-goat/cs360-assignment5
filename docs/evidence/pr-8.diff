@@ -1,0 +1,95 @@
+diff --git a/src/transcriptStore.js b/src/transcriptStore.js
+index ebdcae9..414e53b 100644
+--- a/src/transcriptStore.js
++++ b/src/transcriptStore.js
+@@ -41,14 +41,8 @@ export class TranscriptStore {
+ 
+   addGrade(studentID, course, grade) {
+     const parsedID = this.#requireStudent(studentID).studentID;
+-    const normalizedCourse = String(course ?? "").trim().toUpperCase();
+-    if (!normalizedCourse) {
+-      throw new Error("Course name is required");
+-    }
+-    const numericGrade = Number(grade);
+-    if (!Number.isInteger(numericGrade) || numericGrade < 0 || numericGrade > 100) {
+-      throw new Error("Grade must be an integer from 0 to 100");
+-    }
++    const normalizedCourse = this.#normalizeCourse(course);
++    const numericGrade = this.#parseGrade(grade);
+ 
+     const studentGrades = this.#grades.get(parsedID) ?? new Map();
+     studentGrades.set(normalizedCourse, numericGrade);
+@@ -58,14 +52,8 @@ export class TranscriptStore {
+ 
+   changeGrade(studentID, course, grade) {
+     const parsedID = this.#requireStudent(studentID).studentID;
+-    const normalizedCourse = String(course ?? "").trim().toUpperCase();
+-    if (!normalizedCourse) {
+-      throw new Error("Course name is required");
+-    }
+-    const numericGrade = Number(grade);
+-    if (!Number.isInteger(numericGrade) || numericGrade < 0 || numericGrade > 100) {
+-      throw new Error("Grade must be an integer from 0 to 100");
+-    }
++    const normalizedCourse = this.#normalizeCourse(course);
++    const numericGrade = this.#parseGrade(grade);
+ 
+     const studentGrades = this.#grades.get(parsedID);
+     if (!studentGrades?.has(normalizedCourse)) {
+@@ -88,6 +76,22 @@ export class TranscriptStore {
+     );
+   }
+ 
++  #normalizeCourse(course) {
++    const normalizedCourse = String(course ?? "").trim().toUpperCase();
++    if (!normalizedCourse) {
++      throw new Error("Course name is required");
++    }
++    return normalizedCourse;
++  }
++
++  #parseGrade(grade) {
++    const numericGrade = Number(grade);
++    if (!Number.isInteger(numericGrade) || numericGrade < 0 || numericGrade > 100) {
++      throw new Error("Grade must be an integer from 0 to 100");
++    }
++    return numericGrade;
++  }
++
+   #parseStudentID(studentID) {
+     const parsedID = Number(studentID);
+     if (!Number.isInteger(parsedID) || parsedID <= 0) {
+diff --git a/test/transcriptStore.test.js b/test/transcriptStore.test.js
+index a9944f7..b09643f 100644
+--- a/test/transcriptStore.test.js
++++ b/test/transcriptStore.test.js
+@@ -54,4 +54,29 @@ describe("TranscriptStore", () => {
+     assert.deepEqual(store.getStudentIDs(), [firstID]);
+     assert.throws(() => store.deleteStudent(secondID), /Student not found/);
+   });
++
++  test("REF-201: addGrade and changeGrade share validation behavior", () => {
++    const studentID = store.addStudent("Ada");
++    store.addGrade(studentID, "CS360", 80);
++
++    for (const method of ["addGrade", "changeGrade"]) {
++      assert.throws(
++        () => store[method](studentID, "   ", 80),
++        /Course name is required/,
++      );
++      assert.throws(
++        () => store[method](studentID, "CS360", 101),
++        /Grade must be an integer from 0 to 100/,
++      );
++      assert.throws(
++        () => store[method](studentID, "CS360", "A+"),
++        /Grade must be an integer from 0 to 100/,
++      );
++      assert.deepEqual(store[method](studentID, " cs361 ", "88"), {
++        studentID,
++        course: "CS361",
++        grade: 88,
++      });
++    }
++  });
+ });

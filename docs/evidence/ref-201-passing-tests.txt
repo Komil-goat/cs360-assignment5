@@ -1,0 +1,19 @@
+
+> cs360-assignment5-starter@1.0.0 test
+> node --test
+
+▶ TranscriptStore
+  ✔ adds students and returns their transcripts (1.337292ms)
+  ✔ adds and changes a course grade (1.219208ms)
+  ✔ rejects invalid student, course, and grade inputs (0.632875ms)
+  ✔ supports exact-name lookup and deletion (0.386041ms)
+  ✔ REF-201: addGrade and changeGrade share validation behavior (0.309792ms)
+✔ TranscriptStore (5.468584ms)
+ℹ tests 5
+ℹ suites 1
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 93.242375

@@ -1,0 +1,4 @@
+Auto-merging src/transcriptStore.js
+Auto-merging test/transcriptStore.test.js
+CONFLICT (content): Merge conflict in test/transcriptStore.test.js
+Automatic merge failed; fix conflicts and then commit the result.

@@ -1,0 +1,23 @@
+
+> cs360-assignment5-starter@1.0.0 test
+> node --test
+
+✔ BUG-101: a deleted student's grade request returns 404 (30.79425ms)
+▶ TranscriptStore
+  ✔ adds students and returns their transcripts (1.722833ms)
+  ✔ adds and changes a course grade (0.227459ms)
+  ✔ BUG-102: rejects a second grade for the same student and course (0.347708ms)
+  ✔ rejects invalid student, course, and grade inputs (0.205333ms)
+  ✔ supports exact-name lookup and deletion (0.248292ms)
+  ✔ REF-201: addGrade and changeGrade share validation behavior (0.255292ms)
+  ✔ BUG-103: name search trims whitespace and ignores case (0.12975ms)
+  ✔ BUG-101: deleting a student removes their stored grades (0.124292ms)
+✔ TranscriptStore (4.010291ms)
+ℹ tests 9
+ℹ suites 1
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 158.253084

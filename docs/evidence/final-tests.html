@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Final verification — cs360-assignment5 main</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 32px;
+    background: #080c12;
+    color: #d6deeb;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  .window {
+    max-width: 1180px;
+    margin: 0 auto;
+    background: #0e1520;
+    border: 1px solid #263244;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.5);
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 11px 15px;
+    background: #151e2c;
+    border-bottom: 1px solid #263244;
+  }
+  .dot { width: 11px; height: 11px; border-radius: 50%; }
+  .red { background: #ff5f57; }
+  .yellow { background: #febc2e; }
+  .green { background: #28c840; }
+  .title { margin-left: 10px; color: #8aa0bb; font-size: 13px; }
+  .section { border-bottom: 1px solid #1b2635; }
+  .section:last-child { border-bottom: 0; }
+  .cmd {
+    padding: 16px 22px 0;
+    color: #7ee787;
+    font-size: 14px;
+  }
+  .note {
+    padding: 6px 22px 0;
+    color: #8aa0bb;
+    font-size: 12.5px;
+  }
+  pre {
+    margin: 0;
+    padding: 12px 22px 20px;
+    font-size: 13.5px;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  .ok { color: #7ee787; }
+  .bold { font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="window">
+    <div class="bar">
+      <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+      <span class="title">Final verification — cs360-assignment5 main</span>
+    </div>
+    <div class="section">
+      <div class="cmd">$ npm test</div>
+      <div class="note">Final code on main after all four pull requests were merged (1c3837c).</div>
+      <pre>
+&gt; cs360-assignment5-starter@1.0.0 test
+&gt; node --test
+
+✔ BUG-101: a deleted student's grade request returns 404 (27.430959ms)
+▶ TranscriptStore
+  ✔ adds students and returns their transcripts (1.689042ms)
+  ✔ adds and changes a course grade (0.229416ms)
+  ✔ BUG-102: rejects a second grade for the same student and course (0.348708ms)
+  ✔ rejects invalid student, course, and grade inputs (0.204958ms)
+  ✔ supports exact-name lookup and deletion (0.251917ms)
+  ✔ REF-201: addGrade and changeGrade share validation behavior (0.248708ms)
+  ✔ BUG-103: name search trims whitespace and ignores case (0.127708ms)
+  ✔ BUG-101: deleting a student removes their stored grades (0.14275ms)
+✔ TranscriptStore (4.025375ms)
+ℹ tests 9
+ℹ suites 1
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 144.94375
+</pre>
+    </div>
+  </div>
+</body>
+</html>

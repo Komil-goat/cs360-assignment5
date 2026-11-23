@@ -1,0 +1,39 @@
+diff --git a/src/transcriptStore.js b/src/transcriptStore.js
+index ebdcae9..475f77e 100644
+--- a/src/transcriptStore.js
++++ b/src/transcriptStore.js
+@@ -15,9 +15,14 @@ export class TranscriptStore {
+   }
+ 
+   getStudentIDs(name) {
++    const normalizedName =
++      name === undefined ? undefined : String(name).trim().toLowerCase();
+     const matches = [];
+     for (const student of this.#students.values()) {
+-      if (name === undefined || student.studentName === String(name)) {
++      if (
++        normalizedName === undefined ||
++        student.studentName.toLowerCase() === normalizedName
++      ) {
+         matches.push(student.studentID);
+       }
+     }
+diff --git a/test/transcriptStore.test.js b/test/transcriptStore.test.js
+index a9944f7..731b2f2 100644
+--- a/test/transcriptStore.test.js
++++ b/test/transcriptStore.test.js
+@@ -54,4 +54,14 @@ describe("TranscriptStore", () => {
+     assert.deepEqual(store.getStudentIDs(), [firstID]);
+     assert.throws(() => store.deleteStudent(secondID), /Student not found/);
+   });
++
++  test("BUG-103: name search trims whitespace and ignores case", () => {
++    const studentID = store.addStudent("Grace Lee");
++
++    assert.deepEqual(store.getStudentIDs("  gRaCe LeE  "), [studentID]);
++    assert.equal(
++      store.getTranscript(studentID).student.studentName,
++      "Grace Lee",
++    );
++  });
+ });

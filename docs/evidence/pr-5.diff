@@ -1,0 +1,89 @@
+diff --git a/src/transcriptStore.js b/src/transcriptStore.js
+index ebdcae9..4b9242e 100644
+--- a/src/transcriptStore.js
++++ b/src/transcriptStore.js
+@@ -37,6 +37,7 @@ export class TranscriptStore {
+     if (!this.#students.delete(parsedID)) {
+       throw new Error(`Student not found: ${parsedID}`);
+     }
++    this.#grades.delete(parsedID);
+   }
+ 
+   addGrade(studentID, course, grade) {
+diff --git a/test/server.test.js b/test/server.test.js
+new file mode 100644
+index 0000000..43cc799
+--- /dev/null
++++ b/test/server.test.js
+@@ -0,0 +1,53 @@
++import assert from "node:assert/strict";
++import { after, before, test } from "node:test";
++import { createAppServer } from "../src/server.js";
++
++let server;
++let baseURL;
++
++before(async () => {
++  server = createAppServer();
++  await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
++  baseURL = `http://127.0.0.1:${server.address().port}`;
++});
++
++after(async () => {
++  await new Promise((resolve, reject) => {
++    server.close((error) => (error ? reject(error) : resolve()));
++  });
++});
++
++test("BUG-101: a deleted student's grade request returns 404", async () => {
++  const createResponse = await fetch(`${baseURL}/transcripts`, {
++    method: "POST",
++    headers: { "Content-Type": "application/json" },
++    body: JSON.stringify({ name: "Ada" }),
++  });
++  assert.equal(createResponse.status, 201);
++  const { studentID } = await createResponse.json();
++
++  const addGradeResponse = await fetch(
++    `${baseURL}/transcripts/${studentID}/CS360`,
++    {
++      method: "POST",
++      headers: { "Content-Type": "application/json" },
++      body: JSON.stringify({ grade: 90 }),
++    },
++  );
++  assert.equal(addGradeResponse.status, 201);
++
++  const deleteResponse = await fetch(`${baseURL}/transcripts/${studentID}`, {
++    method: "DELETE",
++  });
++  assert.equal(deleteResponse.status, 204);
++
++  const gradeResponse = await fetch(
++    `${baseURL}/transcripts/${studentID}/CS360`,
++  );
++  assert.equal(gradeResponse.status, 404);
++
++  const transcriptResponse = await fetch(
++    `${baseURL}/transcripts/${studentID}`,
++  );
++  assert.equal(transcriptResponse.status, 404);
++});
+diff --git a/test/transcriptStore.test.js b/test/transcriptStore.test.js
+index a9944f7..b6e20fc 100644
+--- a/test/transcriptStore.test.js
++++ b/test/transcriptStore.test.js
+@@ -54,4 +54,13 @@ describe("TranscriptStore", () => {
+     assert.deepEqual(store.getStudentIDs(), [firstID]);
+     assert.throws(() => store.deleteStudent(secondID), /Student not found/);
+   });
++
++  test("BUG-101: deleting a student removes their stored grades", () => {
++    const studentID = store.addStudent("Ada");
++    store.addGrade(studentID, "CS360", 85);
++
++    store.deleteStudent(studentID);
++
++    assert.equal(store.getGrade(studentID, "CS360"), undefined);
++  });
+ });
